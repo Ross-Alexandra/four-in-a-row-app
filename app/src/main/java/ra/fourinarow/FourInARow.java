@@ -1,12 +1,15 @@
 package ra.fourinarow;
 
+import android.util.Log;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class FourInARow {
 
 	private int[][] puzzle;
-	private static final int COL_MAX = 7;
-	private static final int ROW_MAX = 6;
+	private final int COL_MAX = 7;
+	public final int ROW_MAX = 6;
 	private String player1;
 	private String player2;
 	private int difficulty;
@@ -14,7 +17,7 @@ public class FourInARow {
 	private int player_num;
 	private String winner;
 	
-	public FourInARow(String name1, String name2) {
+	FourInARow(String name1, String name2) {
 		puzzle = new int[6][7];
 		numInCols = new int[7];
 		
@@ -25,7 +28,7 @@ public class FourInARow {
 		player_num = 1;
 	}
 	
-	public FourInARow(String name, int Difficulty) {
+	FourInARow(String name, int Difficulty) {
 		puzzle = new int[6][7];
 		numInCols = new int[7];
 		
@@ -35,9 +38,9 @@ public class FourInARow {
 		this.difficulty = Difficulty;
 	}
 
-	public int[][] getPuzzle() {
-		return this.puzzle;
-	}
+	public int getCell(int row, int col) {return puzzle[row][col];}
+
+	public int getRow(int col) { return numInCols[col];}
 	
 	private int check(int[] pos) {
 		/*
@@ -122,7 +125,9 @@ public class FourInARow {
 		if (this.ROW_MAX - 1 < numInCols[colNum]) {
 			throw new ColumnFullException(colNum);
 		}
-		
+
+		Log.d("CELLINFO", (this.ROW_MAX - 1) - numInCols[colNum] + "");
+
 		// ROW_MAX - 1 gives 5. which is the index of the bottom-most row.
 		this.puzzle[(this.ROW_MAX - 1) - numInCols[colNum]][colNum] = player_num;
 		// Change the current player to the other player.
@@ -132,6 +137,7 @@ public class FourInARow {
 		
 		// Return whether this was a winning move or not.
 		int[] pos = {(this.ROW_MAX - 1) - numInCols[colNum], colNum};
+		Log.d("CELLINFO", "Internally: " + Arrays.toString(pos));
 		
 		int win = this.check(pos);
 		if (win == 1) {
@@ -155,7 +161,7 @@ public class FourInARow {
 		return this.difficulty;
 	}
 	
-	public String curPlayer() {
+	private String curPlayer() {
 		if (player_num == 1) {
 			return this.player1;
 		}
