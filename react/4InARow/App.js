@@ -5,13 +5,25 @@ import AppScreen from './components/AppScreen';
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentScreen: AppScreen.GAMESCREEN
+    }
+  }
+
+  updateScreen = (newScreen) => {
+    this.setState({ currentScreen: newScreen });
+  }
+
   render() {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
 
     return (
       <React.Fragment>
-        <NavBar/>
-        <AppScreen screen={ AppScreen.GAMESCREEN }/>
+        <NavBar changeScreen={ this.updateScreen } />
+        <AppScreen screen={ this.state.currentScreen } changeScreen={ this.updateScreen }/>
       </React.Fragment>
     );
   }
