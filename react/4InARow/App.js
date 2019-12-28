@@ -9,12 +9,16 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentScreen: AppScreen.GAMESCREEN
+      currentScreen: AppScreen.GAMESCREEN,
+      lastScreenVars: null,
     }
   }
 
-  updateScreen = (newScreen) => {
-    this.setState({ currentScreen: newScreen });
+  updateScreen = (newScreen, lastScreenVars=null) => {
+    this.setState({
+      currentScreen: newScreen,
+      lastScreenVars: lastScreenVars,
+    });
   }
 
   static componentDidMount() {
@@ -26,7 +30,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <NavBar changeScreen={ this.updateScreen } />
-        <AppScreen screen={ this.state.currentScreen } changeScreen={ this.updateScreen }/>
+        <AppScreen screen={ this.state.currentScreen } changeScreen={ this.updateScreen } lastScreenVars={ this.state.lastScreenVars }/>
       </React.Fragment>
     );
   }

@@ -9,6 +9,7 @@ export default class AppScreen extends Component {
     static INVALIDATE = -1;
     static GAMESCREEN = 0;
     static SETTINGSSCREEN = 1;
+    static WINSCREEN = 2;
 
     constructor(props) {
         super(props);
