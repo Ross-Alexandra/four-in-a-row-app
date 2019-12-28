@@ -17,8 +17,11 @@ class App extends Component {
     this.setState({ currentScreen: newScreen });
   }
 
-  render() {
+  static componentDidMount() {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+  }
+
+  render() {
 
     return (
       <React.Fragment>

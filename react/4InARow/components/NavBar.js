@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import AppScreen from './AppScreen';
 
 export default class NavBar extends Component {
     render() {
@@ -12,7 +13,7 @@ export default class NavBar extends Component {
                     <Text style={ styles.TitleText }>4 In a Row</Text>
                 </View>
                 <View style={ styles.NavBox }>
-                    <Text style={ styles.NavText }>Settings</Text>
+                    <Text style={ styles.NavText } onPress={ () => this.props.changeScreen(AppScreen.SETTINGSSCREEN) }>Settings</Text>
                 </View>
             </View>
         );

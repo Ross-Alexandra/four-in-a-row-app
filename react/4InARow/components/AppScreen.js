@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import GameScreen from './Screens/GameScreen';
 import SettingsScreen from './Screens/SettingsScreen';
 
@@ -16,24 +17,34 @@ export default class AppScreen extends Component {
         }
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (props.screen != state.currentScreen) {
+            return {
+                currentScreen: props.screen,
+                freshScreen: true
+            }
+        }
+
+        else if (state.freshScreen) {
+            return {
+                freshScreen: false
+            }
+        }
+
+        return null;
+    }
+
     render() {
         let currentScreen;
 
-        if (this.props.screen != this.state.currentScreen) {
-            this.setState({
-                currentScreen: this.props.screen,
-                freshScreen: true
-            });
-        }
-
-        if (this.state.screen == AppScreen.GAMESCREEN) {
+        if (this.state.currentScreen == AppScreen.GAMESCREEN) {
             currentScreen = <GameScreen changeScreen={ this.props.changeScreen } newGame={ this.state.freshScreen }/>;
-            if (this.state.freshScreen) {
-                this.setState({ freshScreen: false });
-            }
         }
-        else if (this.state.screen == AppScreen.SETTINGSSCREEN) {
+        else if (this.state.currentScreen == AppScreen.SETTINGSSCREEN) {
             currentScreen = <SettingsScreen changeScreen={ this.props.changeScreen }/>;
+        }
+        else {
+            currentScreen = <Text>Loading...</Text>;
         }
 
         return (
