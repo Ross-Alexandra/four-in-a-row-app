@@ -5,6 +5,7 @@ import SettingsScreen from './Screens/SettingsScreen';
 
 export default class AppScreen extends Component {
 
+    static INVALIDATE = -1;
     static GAMESCREEN = 0;
     static SETTINGSSCREEN = 1;
 
@@ -12,15 +13,17 @@ export default class AppScreen extends Component {
         super(props);
 
         this.state = { 
-            currentScreen: null,
+            currentScreen: AppScreen.GAMESCREEN,
             freshScreen: false,
         }
     }
 
     static getDerivedStateFromProps(props, state) {
         if (props.screen != state.currentScreen) {
+            let currentScreen = props.screen != AppScreen.INVALIDATE ? props.screen : AppScreen.GAMESCREEN
+
             return {
-                currentScreen: props.screen,
+                currentScreen: currentScreen,
                 freshScreen: true
             }
         }

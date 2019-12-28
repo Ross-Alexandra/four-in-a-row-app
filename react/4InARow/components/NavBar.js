@@ -7,10 +7,10 @@ export default class NavBar extends Component {
         return (
             <View style={ styles.NavContainer }>
                 <View style={ styles.NavBox }>
-                    <Text style={ styles.NavText }>New Game</Text>
+                    <Text style={ styles.NavText } onPress={ () => this.props.changeScreen(AppScreen.INVALIDATE)}>New Game</Text>
                 </View>
                 <View style={ styles.NavBox }>
-                    <Text style={ styles.TitleText }>4 In a Row</Text>
+                    <Text style={ styles.TitleText }>Four In a Row</Text>
                 </View>
                 <View style={ styles.NavBox }>
                     <Text style={ styles.NavText } onPress={ () => this.props.changeScreen(AppScreen.SETTINGSSCREEN) }>Settings</Text>
@@ -38,11 +38,13 @@ const styles = StyleSheet.create({
         borderColor: '#aaaaaa',
         justifyContent: "center",
         alignItems: "center",
-        justifyContent: "center",
-        alignItems: "center",
     },
     NavText: {
-        color: '#ffffff'
+        width: "100%",
+        height: "100%",
+        color: '#ffffff',
+        textAlign: "center",
+        textAlignVertical: "center",
     },
     TitleText: {
         color: '#44cc44',
