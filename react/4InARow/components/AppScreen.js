@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import GameScreen from './Screens/GameScreen';
 import SettingsScreen from './Screens/SettingsScreen';
+import { getTimeFieldValues } from 'uuid-js';
 
 export default class AppScreen extends Component {
 
@@ -19,29 +20,36 @@ export default class AppScreen extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.screen != state.currentScreen) {
-            let currentScreen = props.screen != AppScreen.INVALIDATE ? props.screen : AppScreen.GAMESCREEN
 
+        if (props.screen == AppScreen.INVALIDATE) {
+            props.changeScreen(AppScreen.GAMESCREEN);
             return {
-                currentScreen: currentScreen,
-                freshScreen: true
-            }
+                currentScreen: AppScreen.GameScreen,
+                freshScreen: true,
+            };
         }
 
-        else if (state.freshScreen) {
+        else if (props.screen != state.currentScreen) {
             return {
-                freshScreen: false
+                currentScreen: props.screen,
+                freshScreen: true
             }
         }
 
         return null;
     }
 
+    unfreshScreen = () => {
+        this.setState({
+            freshScreen: false,
+        });
+    }
+
     render() {
         let currentScreen;
 
         if (this.state.currentScreen == AppScreen.GAMESCREEN) {
-            currentScreen = <GameScreen changeScreen={ this.props.changeScreen } newGame={ this.state.freshScreen }/>;
+            currentScreen = <GameScreen changeScreen={ this.props.changeScreen } newGame={ this.state.freshScreen } unfreshScreen={ this.unfreshScreen }/>;
         }
         else if (this.state.currentScreen == AppScreen.SETTINGSSCREEN) {
             currentScreen = <SettingsScreen changeScreen={ this.props.changeScreen }/>;

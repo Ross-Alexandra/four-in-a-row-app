@@ -29,18 +29,30 @@ export default class GameScreen extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        return null;
+        if (props.newGame) {
+            let gameState = [[], [], [], [], [], []];
+            let nextMove = [5, 5, 5, 5, 5, 5, 5];
+            for (let i = 0; i < GameScreen.NUMROWS; i++) {
+                for (let j = 0; j < GameScreen.NUMCOLS; j++) {
+                    gameState[i].push(GameScreen.UNPLAYED);
+                }
+            }
+
+            props.unfreshScreen();
+            return {
+                gameState,
+                currentPlayer: GameScreen.PLAYERONE,
+                nextMove,
+            };
+        }
     }
 
     playMove = (col) => {
-        console.log(`playing move in col ${col + 1}`);
-
         if (this.state.nextMove[col] == -1) {
             return;
         }
 
         let gameBoard = [...this.state.gameState];
-        console.log(gameBoard);
         gameBoard[this.state.nextMove[col]][col] = this.state.currentPlayer;
 
         let nextMove = [...this.state.nextMove]
