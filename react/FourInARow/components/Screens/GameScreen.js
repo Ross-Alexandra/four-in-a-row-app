@@ -125,14 +125,16 @@ export default class GameScreen extends Component {
                 // Or finalize the sequence if this is the end of a sequence.
                 else {
                     if (!lastPlayer) {
+                        sequenceCount = 0;
                         continue;
                     }
 
                     if (sequenceCount > pieceCount[currentBoard]) {
                         pieceCount[currentBoard] = sequenceCount;
-                        lastPlayer = false;
-                        sequenceCount = 0;
                     }
+                    
+                    lastPlayer = false;
+                    sequenceCount = 0;
                 }
             }
 
@@ -148,6 +150,10 @@ export default class GameScreen extends Component {
         }
 
         // Return the highest sequence count.
+
+        let pstring = player === GameScreen.PLAYERONE ? "Red" : "Blue";
+        console.log(`\n============ Player: ${pstring} => Move At: (${moveRow}, ${moveCol})\nRow: ${pieceCount[0]} => ${moveBoard[0]}\nCol: ${pieceCount[1]} => ${moveBoard[1]}\nFD: ${pieceCount[2]} => ${moveBoard[2]}\nBD: ${pieceCount[3]} => ${moveBoard[3]}\n`);
+
         return Math.max(...pieceCount);
     }
 
@@ -197,7 +203,7 @@ export default class GameScreen extends Component {
                 
                 let color_style;
                 if (this.state.gameState[i][j] == GameScreen.UNPLAYED) {
-                    color_style = { backgroundColor: "#444444" };
+                    color_style = { backgroundColor: "#666666" };
                 } else if (this.state.gameState[i][j] == GameScreen.PLAYERONE) {
                     color_style = { backgroundColor: "#cc3311" };
                 } else if (this.state.gameState[i][j] == GameScreen.PLAYERTWO) {
@@ -240,7 +246,7 @@ const styles = StyleSheet.create({
         flex: 1,
         display: "flex",
         backgroundColor: '#444444',
-        flexDirection: "column",
+        flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -248,11 +254,13 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         width: "100%",
-        height: "85%",
+        height: "90%",
         maxWidth: "77%",
         flexWrap: "wrap",
         borderWidth: 3,
-        borderColor: "#111111",
+        borderColor: "#333333",
+        paddingBottom: "7.5%",
+        backgroundColor: "#bbbbbb"
     },
     game_cell: {
         flex: 1,
@@ -260,7 +268,7 @@ const styles = StyleSheet.create({
         minWidth: "10.5%",
         minHeight: "16.66%",
         borderWidth: 1,
-        borderColor: '#dddddd'
+        borderColor: '#333333'
     },
     cell_circle: {
         marginTop: "7%",
@@ -269,7 +277,7 @@ const styles = StyleSheet.create({
         marginRight: "25%",
         borderRadius: 50,
         borderWidth: 2,
-        borderColor: '#111111'
+        borderColor: '#333333'
     }
 });
   
