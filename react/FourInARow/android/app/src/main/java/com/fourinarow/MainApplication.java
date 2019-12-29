@@ -1,4 +1,4 @@
-package com.fourinarow;
+package com.rossalexandra.fourinarow;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.fourinarow;
+package com.rossalexandra.fourinarow;
 
 import com.facebook.react.ReactActivity;
 import android.view.View;
@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
   }
 
   @Override
-  protected void onStart()
+  protected void onResume()
   {
       getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
               | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -23,6 +23,6 @@ public class MainActivity extends ReactActivity {
               | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
               | View.SYSTEM_UI_FLAG_FULLSCREEN
               | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-      super.onStart();
+      super.onResume();
   }
 }
