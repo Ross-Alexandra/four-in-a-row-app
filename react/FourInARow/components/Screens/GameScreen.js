@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Modal } from 'react-native';
+import AppScreen from '../AppScreen';
 
 export default class GameScreen extends Component {
 
@@ -26,6 +27,7 @@ export default class GameScreen extends Component {
             currentPlayer: GameScreen.PLAYERONE, // Next player to play a move.
             nextMove, // An array to tell you which column the next play is in each row.
             winner: null,
+            examine: false,
         }
     }
 
@@ -45,6 +47,7 @@ export default class GameScreen extends Component {
                 currentPlayer: GameScreen.PLAYERONE,
                 nextMove,
                 winner: null,
+                examine: false,
             };
         }
 
@@ -132,7 +135,7 @@ export default class GameScreen extends Component {
                     if (sequenceCount > pieceCount[currentBoard]) {
                         pieceCount[currentBoard] = sequenceCount;
                     }
-                    
+
                     lastPlayer = false;
                     sequenceCount = 0;
                 }
@@ -194,6 +197,12 @@ export default class GameScreen extends Component {
         });
     }
 
+    enterExamineState = () => {
+        this.setState({
+            examine: true,
+        });
+    }
+
     render() {
         let gameCells = [[],[],[],[],[],[]];
 
@@ -231,10 +240,29 @@ export default class GameScreen extends Component {
                     </View>
                 </View>
                 {
-                    this.state.winner !== null && 
-                    <View style={ styles.modal_container }>
-                        <Text>{ winner } is the winner of the game.</Text>
-                    </View>
+                    <Modal
+                        animationType="slide"
+                        visible={ this.state.winner !== null && !this.state.examine}
+                        transparent={ true }
+                    >
+                        <View style={ { display: "flex", alignItems: "center", justifyContent: "center" } }>
+                            <View style={ styles.modal_container }>
+                                <Text style={ styles.victory_text }>{ winner } is the winner of the game.</Text>
+                                <View style={ { display: "flex", flexDirection: "row", alignContent: "center", justifyContent: "space-between" } }>
+                                    <View style={ styles.modal_button }>
+                                        <Text style={ styles.modal_button_text } onPress={ () => { this.props.changeScreen(AppScreen.INVALIDATE); }}>
+                                            New Game
+                                        </Text>
+                                    </View>
+                                    <View style={ styles.modal_button }>
+                                        <Text style={ styles.modal_button_text } onPress={ this.enterExamineState }>
+                                            Examine Board
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
                 }
             </React.Fragment>
         );
@@ -249,6 +277,21 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    modal_container: {
+        flexGrow: 1,
+        marginVertical: "15.5%",
+        marginLeft: "7.5%",
+        backgroundColor: '#333333f0',
+        opacity: 1,
+        paddingHorizontal: "2.5%",
+        paddingBottom: "2.5%",
+        paddingTop: "5%",
+    },
+    victory_text: {
+        color: '#44cc44',
+        fontSize: 20,
+        marginBottom: "1%",
     },
     game_board: {
         display: "flex",
@@ -278,6 +321,21 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         borderWidth: 2,
         borderColor: '#333333'
+    },
+    modal_button: {
+        flex: 1,
+        display: "flex",
+        backgroundColor: '#666666',
+        borderWidth: 2,
+        borderRadius: 50,
+        borderColor: '#aaaaaa',
+        marginHorizontal: "8%",
+    },
+    modal_button_text: {
+        color: '#eeeeee',
+        textAlign: "center",
+        textAlignVertical: "center",
+        paddingHorizontal: "3%",
     }
 });
   
